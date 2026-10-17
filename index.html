@@ -21,12 +21,12 @@
     </a>
 
     <div class="nav-actions">
-      <a href="#simulator" class="nav-btn">Simulator</a>
-      <a href="#premortem" class="nav-btn">Pre-Mortem</a>
+      <a href="#sandbox" class="nav-btn">Sandbox</a>
       <a href="#board" class="nav-btn">AI Board</a>
+      <a href="#simulator" class="nav-btn">Simulator</a>
       <a href="#architecture" class="nav-btn secondary">Architecture</a>
-      <button class="nav-btn primary" onclick="openModal('access')">→ Launch Console</button>
-      <button class="nav-btn" onclick="openModal('menu')">Menu</button>
+      <button class="nav-btn primary" onclick="openModal('accessModal')">→ Launch Console</button>
+      <button class="nav-btn" onclick="openModal('announcementModal')">News</button>
     </div>
   </header>
 
@@ -41,7 +41,7 @@
       <div class="announcement-body">
         We raised strategic institutional backing to deploy Decision Intelligence for SMEs
         <br>
-        <a class="announcement-link" onclick="openModal('access')">View announcement & early access</a>
+        <a class="announcement-link" onclick="openModal('announcementModal')">View announcement & early access</a>
       </div>
     </div>
 
@@ -51,12 +51,13 @@
       </h1>
 
       <div class="hero-cta-group">
-        <a class="hero-cta-primary" onclick="openModal('access')">
+        <a class="hero-cta-primary" onclick="openModal('accessModal')">
           <span>Launch OS Console</span>
           <span style="font-size:1.1rem">↗</span>
         </a>
+        <a class="hero-cta-link" href="#sandbox">▶ Test Your Decision</a>
+        <a class="hero-cta-link" href="#board">AI Boardroom Debate</a>
         <a class="hero-cta-link" href="#simulator">Try Scenario Simulator</a>
-        <a class="hero-cta-link" href="#architecture">▶ Watch System Architecture</a>
       </div>
     </div>
 
@@ -309,6 +310,209 @@
     </div>
   </section>
 
+  <!-- ==========================================================================
+       SECTION 1: INTERACTIVE PRE-MORTEM SANDBOX (TRY YOUR OWN DECISION)
+       ========================================================================== -->
+  <section class="sandbox-section corner-frame" id="sandbox">
+    <div class="corner-frame-bottom-left"></div>
+    <div class="corner-frame-bottom-right"></div>
+
+    <div class="sandbox-container">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+        <span class="mono-tag lime">Kernel v1.0 Sandbox // Interactive Pre-Mortem Engine</span>
+        <span class="mono-tag" style="background:#000; color:#b6f535;">● Grounded In Real AED Balances</span>
+      </div>
+
+      <h2 class="section-huge-headline" style="margin-bottom: 1rem;">Test Your Own Decision Before You Write The Check.</h2>
+      <p style="font-size: 1.15rem; max-width: 860px; margin-bottom: 2rem;">
+        LLMs give conversational advice. Offc reverse-engineers catastrophic failure before capital leaves your bank account. Select a verified regional preset or type your company's own proposal to run an instant 180-day pre-mortem audit.
+      </p>
+
+      <!-- Preset Selector Chips -->
+      <div class="sandbox-presets-bar">
+        <span class="sandbox-presets-label">QUICK PRESETS:</span>
+        <button class="sandbox-chip active" type="button" onclick="loadSandboxPreset('dubai_hub')">🇦🇪 Dubai South Logistics Hub [AED 650k]</button>
+        <button class="sandbox-chip" type="button" onclick="loadSandboxPreset('machinery')">⚙️ EU Automated Tooling Line [AED 300k]</button>
+        <button class="sandbox-chip" type="button" onclick="loadSandboxPreset('sales_scale')">👥 Scale Enterprise Sales Team [AED 480k]</button>
+        <button class="sandbox-chip" type="button" onclick="loadSandboxPreset('erp_cloud')">☁️ Core ERP Cloud Overhaul [AED 220k]</button>
+        <button class="sandbox-chip" type="button" onclick="loadSandboxPreset('custom')">✏️ Custom Enterprise Proposal</button>
+      </div>
+
+      <!-- Main Sandbox Window (Brutalist OS Terminal Style) -->
+      <div class="sandbox-console-window">
+        <div class="sandbox-console-header">
+          <div style="display:flex; align-items:center; gap:0.6rem;">
+            <span class="retro-dot" style="background:#22c55e;"></span>
+            <span style="font-weight:700;">OFFC.OS // PRE-MORTEM DECISION COMPILER</span>
+          </div>
+          <div class="sandbox-header-meta">
+            <span>ISOLATED KERNEL</span>
+            <span>LATENCY: 0.114s</span>
+            <span>AED GROUNDED</span>
+          </div>
+        </div>
+
+        <div class="sandbox-console-body">
+          <form id="sandboxForm" onsubmit="runSandboxAudit(event)">
+            <div class="sandbox-form-grid">
+              <!-- Left: Decision Description -->
+              <div class="sandbox-form-col-wide">
+                <label class="sandbox-label">
+                  <span>DECISION PREMISE & STRATEGIC OBJECTIVE</span>
+                  <span style="color:#6b7280; font-size:0.7rem;">What are you planning to commit capital to?</span>
+                </label>
+                <textarea id="sandboxDecisionText" class="sandbox-textarea" rows="4" required placeholder="e.g. Commit AED 650,000 to establish a 12,000 sq ft logistics facility in Dubai South to reduce regional fulfillment latency and capture Gulf e-commerce supply contracts."></textarea>
+              </div>
+
+              <!-- Right: Numerical Variables -->
+              <div class="sandbox-form-col-side">
+                <div class="sandbox-field-group">
+                  <label class="sandbox-label">
+                    <span>CAPEX COMMITMENT (AED)</span>
+                    <span id="sandboxCapexBadge" class="mono-badge">AED 650,000</span>
+                  </label>
+                  <input type="number" id="sandboxCapex" class="sandbox-input" value="650000" min="50000" max="25000000" step="10000" oninput="updateSandboxBadges()">
+                </div>
+
+                <div class="sandbox-field-group">
+                  <label class="sandbox-label">
+                    <span>LIQUID CASH BUFFER (AED)</span>
+                    <span id="sandboxCashBadge" class="mono-badge">AED 920,000</span>
+                  </label>
+                  <input type="number" id="sandboxCash" class="sandbox-input" value="920000" min="50000" max="50000000" step="10000" oninput="updateSandboxBadges()">
+                </div>
+
+                <div class="sandbox-field-group">
+                  <label class="sandbox-label">
+                    <span>SIMULATION HORIZON</span>
+                  </label>
+                  <select id="sandboxHorizon" class="sandbox-select">
+                    <option value="6" selected>T+6 Months (180-Day Pre-Mortem)</option>
+                    <option value="12">T+12 Months (Annual Stress Test)</option>
+                    <option value="18">T+18 Months (Multi-Year Trajectory)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Execution Action Bar -->
+            <div class="sandbox-action-bar">
+              <div style="font-family:var(--font-mono); font-size:0.75rem; color:#555;">
+                ⚡ Executes multi-agent adversarial simulation across accounting & operational schemas.
+              </div>
+              <button type="submit" id="sandboxRunBtn" class="sandbox-run-btn">
+                <span>▶ RUN REVERSE PRE-MORTEM AUDIT</span>
+                <span class="sandbox-btn-badge">0.114s</span>
+              </button>
+            </div>
+          </form>
+
+          <!-- Animated Execution Ticker (Shown during audit) -->
+          <div id="sandboxTicker" class="sandbox-ticker-box" style="display: none;">
+            <div class="ticker-header">
+              <span id="tickerStepTitle">INITIALIZING REVERSE PRE-MORTEM KERNEL...</span>
+              <span id="tickerPercent" class="mono-badge">25%</span>
+            </div>
+            <div class="ticker-progress-track">
+              <div id="tickerProgressBar" class="ticker-progress-bar" style="width: 25%;"></div>
+            </div>
+            <div class="ticker-steps-list">
+              <div class="ticker-step-item" id="tickerStep1">
+                <span class="ticker-icon">◉</span>
+                <span>Ingesting verified balance sheet, debt capacity & capex runway...</span>
+              </div>
+              <div class="ticker-step-item" id="tickerStep2">
+                <span class="ticker-icon">○</span>
+                <span>Simulating T+180 Day Catastrophic Failure State & operational shocks...</span>
+              </div>
+              <div class="ticker-step-item" id="tickerStep3">
+                <span class="ticker-icon">○</span>
+                <span>Executing multi-agent adversarial stress test (CFO, CRO, Operations)...</span>
+              </div>
+              <div class="ticker-step-item" id="tickerStep4">
+                <span class="ticker-icon">○</span>
+                <span>Reverse-engineering binding antidote protocols with designated owners...</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Audit Results Output Container (Revealed after audit completes) -->
+          <div id="sandboxResults" class="sandbox-results-wrapper">
+            <!-- Failure Mode Card -->
+            <div class="failure-scenario-banner">
+              <div class="failure-header">
+                <span class="failure-tag">⚠ SIMULATED T+180 DAY FAILURE STATE (THE INVISIBLE BLINDSPOT)</span>
+                <span class="failure-prob" id="resFailureProb">FAILURE PROBABILITY: 78.4% UNHEDGED</span>
+              </div>
+              <h4 id="resFailureTitle" class="failure-title">
+                Dubai South Warehouse Stalls in Month 4: Customs Licensing & Working Capital Squeeze
+              </h4>
+              <p id="resFailureDesc" class="failure-desc">
+                By Month 5, the AED 650,000 capex has depleted liquid reserves to AED 270,000. Municipal and customs trade licensing experienced an unhedged 44-day clearance lag, delaying tenant move-in while fixed rent amortizes. Without confirmed pre-orders, cash burn jumps 162% above forecast.
+              </p>
+            </div>
+
+            <!-- Risk Matrix 3-Column Grid -->
+            <div class="risk-matrix-grid">
+              <div class="risk-matrix-card">
+                <div class="risk-card-label">CFO CAPITAL AUDIT</div>
+                <div class="risk-card-metric" id="resCfoScore" style="color:#ef4444;">CRITICAL SQUEEZE</div>
+                <p id="resCfoDetail">Runway shrinks to 2.4 months. Cash buffer drops below emergency AED 300,000 threshold.</p>
+              </div>
+
+              <div class="risk-matrix-card">
+                <div class="risk-card-label">CHIEF RISK OFFICER (CRO)</div>
+                <div class="risk-card-metric" id="resCroScore" style="color:#f59e0b;">HIGH VENDOR RISK</div>
+                <p id="resCroDetail">Single point of failure on primary contractor fit-out timeline (+44 day estimated slippage).</p>
+              </div>
+
+              <div class="risk-matrix-card">
+                <div class="risk-card-label">OPERATIONS & PIPELINE</div>
+                <div class="risk-card-metric" id="resOpsScore" style="color:#03aa5c;">PRE-SALES REMEDY</div>
+                <p id="resOpsDetail">Must pre-secure binding 3PL customer contracts before lease execution.</p>
+              </div>
+            </div>
+
+            <!-- Binding Antidote Action Plan -->
+            <div class="sandbox-antidotes-section">
+              <div class="sandbox-antidotes-header">
+                <div>
+                  <h4 style="font-family:var(--font-mono); font-size:0.95rem; text-transform:uppercase;">
+                    Binding Antidote Protocol [Reverse-Engineered Safeguards]
+                  </h4>
+                  <span style="font-size:0.75rem; color:#666;">These conditions must be locked before capital disbursement:</span>
+                </div>
+                <span class="mono-tag lime" id="resAntidoteCount">3 Mandatory Antidotes Locked</span>
+              </div>
+
+              <div class="sandbox-antidotes-list" id="sandboxAntidotesList">
+                <!-- Dynamically populated by JavaScript -->
+              </div>
+            </div>
+
+            <!-- Results Action Footer -->
+            <div class="sandbox-results-footer">
+              <div class="audit-hash-meta">
+                <span>VERIFIED AUDIT HASH: <strong id="resAuditHash">0x9c41...77e2</strong></span>
+                <span>TIMESTAMP: <strong id="resTimestamp">OCT 17, 2026 • 18:15 GST</strong></span>
+              </div>
+              <div class="sandbox-footer-btns">
+                <button type="button" class="nav-btn" onclick="openDecisionMemoModal()">
+                  🖨️ Export Verified Decision Memo
+                </button>
+                <a href="#board" class="nav-btn primary" onclick="sendToBoardFromSandbox()">
+                  Send To AI Board For Deliberation →
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- SECTION: "10X DEEPER RISK VISIBILITY: PRE-MORTEM VS CHATBOT" -->
   <section class="stats-banner-section corner-frame" id="premortem">
     <div class="corner-frame-bottom-left"></div>
@@ -540,34 +744,74 @@
     </div>
   </section>
 
-  <!-- AI BOARD OF DIRECTORS REASONING CONSOLE -->
+  <!-- ==========================================================================
+       SECTION 3: AI BOARD OF DIRECTORS REASONING CONSOLE & LIVE DEBATE
+       ========================================================================== -->
   <section class="board-section corner-frame" id="board">
     <div class="corner-frame-bottom-left"></div>
     <div class="corner-frame-bottom-right"></div>
 
     <div class="board-container">
-      <span class="mono-tag" style="margin-bottom: 1rem;">Multi-Agent Cognitive Synthesis</span>
-      <h2 class="section-huge-headline" style="margin-bottom: 1.5rem;">The AI Board of Directors.</h2>
-      <p style="font-size: 1.15rem; max-width: 820px;">
-        Orchestrated specialist reasoning, synthesized for the executive team. Each agent audits your decisions from
-        their functional domain before consensus is reached.
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+        <span class="mono-tag lime">Multi-Agent Cognitive Synthesis // Live Arena</span>
+        <span class="mono-tag" style="background:#000; color:#b6f535;">● 5 Specialist Agents Deliberating</span>
+      </div>
+
+      <h2 class="section-huge-headline" style="margin-bottom: 1rem;">The AI Board of Directors.</h2>
+      <p style="font-size: 1.15rem; max-width: 860px; margin-bottom: 2rem;">
+        Orchestrated specialist reasoning, synthesized for executive leadership. Watch your decisions audited in real time through an adversarial boardroom debate between CEO, CFO, CRO, Sales, and Operations.
       </p>
 
+      <!-- Boardroom Deliberation Control Bar -->
+      <div class="board-control-bar">
+        <div class="board-topic-group">
+          <span class="board-control-label">DELIBERATION TOPIC:</span>
+          <select id="boardTopicSelect" class="board-topic-select" onchange="changeBoardTopic(this.value)">
+            <option value="production">AED 300k Capex Production Line Allocation</option>
+            <option value="dubai_hub">AED 650k Dubai South Logistics Expansion</option>
+            <option value="erp_cloud">AED 220k Core Cloud ERP Migration</option>
+          </select>
+        </div>
+
+        <div class="board-playback-controls">
+          <button type="button" class="debate-btn primary" id="debatePlayBtn" onclick="toggleBoardDebate()">
+            <span id="debatePlayIcon">▶</span>
+            <span id="debatePlayText">Start Live Deliberation</span>
+          </button>
+          <button type="button" class="debate-btn" onclick="nextBoardSpeaker()">Next Speaker ❯</button>
+          <button type="button" class="debate-btn" onclick="resetBoardDebate()">↺ Reset</button>
+        </div>
+      </div>
+
+      <!-- Live Consensus Meter Bar -->
+      <div class="consensus-meter-container">
+        <div class="consensus-meter-header">
+          <span>AI BOARDROOM CONSENSUS TRACKER:</span>
+          <span class="consensus-score-tag" id="consensusScoreTag">
+            APPROVAL INDEX: 76% — CONDITIONAL GREENLIGHT (2 ANTIDOTES MANDATED)
+          </span>
+        </div>
+        <div class="consensus-meter-track">
+          <div class="consensus-meter-fill" id="consensusMeterFill" style="width: 76%;"></div>
+        </div>
+      </div>
+
+      <!-- Terminal Window -->
       <div class="board-terminal-wrapper">
-        <div class="board-terminal-nav">
-          <button class="board-tab-btn active" onclick="switchAgent('ceo')">
+        <div class="board-terminal-nav" id="boardNavTabs">
+          <button class="board-tab-btn active" id="tab-ceo" onclick="switchAgent('ceo')">
             <span>[01]</span> CEO Orchestrator
           </button>
-          <button class="board-tab-btn" onclick="switchAgent('cfo')">
+          <button class="board-tab-btn" id="tab-cfo" onclick="switchAgent('cfo')">
             <span>[02]</span> CFO Agent
           </button>
-          <button class="board-tab-btn" onclick="switchAgent('risk')">
+          <button class="board-tab-btn" id="tab-risk" onclick="switchAgent('risk')">
             <span>[03]</span> Chief Risk Officer
           </button>
-          <button class="board-tab-btn" onclick="switchAgent('sales')">
+          <button class="board-tab-btn" id="tab-sales" onclick="switchAgent('sales')">
             <span>[04]</span> Sales Strategy
           </button>
-          <button class="board-tab-btn" onclick="switchAgent('ops')">
+          <button class="board-tab-btn" id="tab-ops" onclick="switchAgent('ops')">
             <span>[05]</span> Operations & Supply
           </button>
         </div>
@@ -578,6 +822,10 @@
             <div class="agent-title-info">
               <h4 id="agentName">CEO Agent / Master Orchestrator</h4>
               <span id="agentRole">Domain: Strategic Alignment & Multi-Agent Synthesis</span>
+            </div>
+            <div id="liveSpeakerBadge" class="live-speaker-badge" style="display:none;">
+              <span class="pulse-dot"></span>
+              <span>LIVE SPEAKER</span>
             </div>
           </div>
 
@@ -909,6 +1157,151 @@
           <p style="font-size: 0.85rem; color: #555;">
             Our team has received your pilot application. Check your email for your sandbox credentials.
           </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: SERVICE LAUNCH ANNOUNCEMENT POPUP -->
+  <div class="modal-overlay" id="announcementModal">
+    <div class="modal-window announcement-modal-window">
+      <div class="modal-header">
+        <div style="display:flex; align-items:center; gap:0.6rem;">
+          <img src="logo_trans.png" alt="the OFFC ai logo" style="height:20px; width:auto; object-fit:contain;">
+          <span>OFFC.OS // OFFICIAL DISPATCH: SERVICE LAUNCHING SOON</span>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('announcementModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="announcement-popup-badge-row">
+          <span class="mono-tag lime">● Launching Soon (Q4 2026)</span>
+          <span class="mono-tag" style="background:#000; color:#b6f535;">Selected: HH Sheikh Hamdan 2M AED Competition</span>
+        </div>
+
+        <h3 class="announcement-popup-title">
+          The First AI Decision Intelligence OS: Giving High-Stakes Business The Clarity Of Code.
+        </h3>
+
+        <div class="announcement-popup-content">
+          <p>
+            Generative chat LLMs are optimized for conversation. They agree with flawed business ideas, hallucinate flattering forecasts, and accept zero accountability when cash dries up.
+          </p>
+
+          <div class="announcement-highlight-box">
+            <span class="announcement-box-label">WHAT IS OFFC?</span>
+            <p>
+              Offc is an institutional-grade <strong>Decision Intelligence OS</strong> built natively for business reality. Instead of answering conversational prompts, Offc runs reverse pre-mortems: fast-forwarding your company 6 to 12 months into simulated failure to expose hidden liquidity traps, supplier bottlenecks, and regulatory delays before you sign contracts or disburse capital.
+            </p>
+          </div>
+
+          <div class="announcement-key-points">
+            <div class="announcement-point-item">
+              <span class="point-num">01</span>
+              <div>
+                <strong>Evidence-Grounded In Real Accounting:</strong> Directly ingests ERP balances, CRM conversion rates, and supplier lead-time matrices—zero unverified figures.
+              </div>
+            </div>
+            <div class="announcement-point-item">
+              <span class="point-num">02</span>
+              <div>
+                <strong>Adversarial AI Board of Directors:</strong> Specialist domain agents (CEO, CFO, CRO, Sales, Ops) challenge assumptions until grounded consensus is reached.
+              </div>
+            </div>
+            <div class="announcement-point-item">
+              <span class="point-num">03</span>
+              <div>
+                <strong>Reverse-Engineered Antidotes:</strong> Failure modes automatically compile into legally binding action plans with assigned C-suite owners and strict deadlines.
+              </div>
+            </div>
+          </div>
+
+          <div class="announcement-launch-status">
+            <div class="status-indicator">
+              <span class="status-dot"></span>
+              <span>DEPLOYMENT STAGE: PRIVATE PILOT ENROLLMENT ACTIVE</span>
+            </div>
+            <p style="font-size:0.75rem; color:#555; margin-top:0.35rem;">
+              Rolling out to selected regional manufacturing, logistics, and technology platforms across the UAE.
+            </p>
+          </div>
+        </div>
+
+        <div class="announcement-popup-footer">
+          <button type="button" class="nav-btn primary" onclick="closeModal('announcementModal'); openModal('accessModal');">
+            Reserve Priority Early Access Spot →
+          </button>
+          <a href="#sandbox" class="nav-btn" onclick="closeModal('announcementModal')">
+            ▶ Test Pre-Mortem Sandbox Live
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- MODAL: VERIFIED EXECUTIVE DECISION MEMO (PRINTABLE / PDF) -->
+  <div class="modal-overlay" id="memoModal">
+    <div class="modal-window memo-modal-window">
+      <div class="modal-header">
+        <div style="display:flex; align-items:center; gap:0.6rem;">
+          <span class="retro-dot" style="background:#22c55e;"></span>
+          <span>OFFC.OS // EXECUTIVE DECISION MEMORANDUM</span>
+        </div>
+        <div style="display:flex; gap:0.5rem; align-items:center;">
+          <button class="nav-btn" style="padding:0.2rem 0.6rem; font-size:0.75rem;" onclick="window.print()">🖨️ Print / Save PDF</button>
+          <button class="modal-close-btn" onclick="closeModal('memoModal')">✕</button>
+        </div>
+      </div>
+      <div class="modal-body memo-printable-area" id="memoPrintArea">
+        <div class="memo-header-block">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <h2 style="font-family:var(--font-display); font-size:1.4rem; font-weight:800;">OFFC INTELLIGENCE OS</h2>
+              <div style="font-family:var(--font-mono); font-size:0.75rem; color:#555;">BOARD OF DIRECTORS EXECUTIVE AUDIT MEMORANDUM</div>
+            </div>
+            <div style="text-align:right; font-family:var(--font-mono); font-size:0.72rem; color:#444;">
+              <div>HASH: <strong id="memoHash">0x9c41...77e2</strong></div>
+              <div>DATE: <strong id="memoDate">OCT 17, 2026</strong></div>
+              <div>CLASSIFICATION: <strong>CONFIDENTIAL // C-SUITE ONLY</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="memo-section-block">
+          <h4 class="memo-block-title">01. STRATEGIC PROPOSAL & CAPITAL EXPENDITURE</h4>
+          <p id="memoPremise" style="font-size:0.9rem; line-height:1.5;">
+            Leasing 12,000 sq ft logistics hub in Dubai South. Capital Commitment: AED 650,000.
+          </p>
+          <div class="memo-kv-grid">
+            <div><strong>CAPEX LOAD:</strong> <span id="memoCapex">AED 650,000</span></div>
+            <div><strong>CASH BUFFER:</strong> <span id="memoCash">AED 920,000</span></div>
+            <div><strong>AUDIT HORIZON:</strong> <span>T+6 Months (Pre-Mortem)</span></div>
+            <div><strong>PREVENTION ROI:</strong> <span>31.2x Capital Protection</span></div>
+          </div>
+        </div>
+
+        <div class="memo-section-block danger">
+          <h4 class="memo-block-title" style="color:#b91c1c;">02. SIMULATED T+180 CATASTROPHIC FAILURE STATE</h4>
+          <p id="memoFailure" style="font-size:0.88rem; line-height:1.45;">
+            By Month 5, liquid reserves deplete to < AED 270,000 due to unhedged 44-day municipal licensing clearance delay. Fixed rent amortizes while tenant move-in is stalled.
+          </p>
+        </div>
+
+        <div class="memo-section-block">
+          <h4 class="memo-block-title">03. BINDING ANTIDOTE PROTOCOL (MANDATED FOR APPROVAL)</h4>
+          <div id="memoAntidoteList" style="display:flex; flex-direction:column; gap:0.6rem;">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <div class="memo-section-block">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding-top:0.75rem; border-top:1px dashed #999;">
+            <div style="font-family:var(--font-mono); font-size:0.72rem; color:#555;">
+              VERIFIED BY: OFFC DECISION INTELLIGENCE KERNEL 1.0<br>
+              CONSENUS: CONDITIONAL GREENLIGHT GRANTED
+            </div>
+            <div style="font-family:var(--font-mono); font-size:0.75rem; border:1px solid #000; padding:0.4rem 0.8rem; background:#f0fdf4;">
+              ✓ BOARD SEAL: APPROVED UNDER CONDITIONS
+            </div>
+          </div>
         </div>
       </div>
     </div>

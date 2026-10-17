@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initTelemetryStream();
   initSimulator();
   initScrollEffects();
+  initSandbox();
+  initBoardroomDebate();
 });
 
 /* ==========================================================================
@@ -504,8 +506,13 @@ function toggleFaq(btn) {
 /* ==========================================================================
    7. MODAL CONTROLS & FORM SUBMISSION
    ========================================================================== */
-function openModal(type) {
-  const modal = document.getElementById('accessModal');
+function openModal(id) {
+  let targetId = id || 'accessModal';
+  if (targetId === 'access') targetId = 'accessModal';
+  if (targetId === 'announcement') targetId = 'announcementModal';
+  if (targetId === 'memo') targetId = 'memoModal';
+
+  const modal = document.getElementById(targetId) || document.getElementById(id);
   if (modal) modal.classList.add('active');
 }
 
@@ -527,9 +534,8 @@ function handleFormSubmit(e) {
 
 /* Close modal on backdrop click */
 window.addEventListener('click', (e) => {
-  const modal = document.getElementById('accessModal');
-  if (e.target === modal) {
-    closeModal('accessModal');
+  if (e.target.classList && e.target.classList.contains('modal-overlay')) {
+    e.target.classList.remove('active');
   }
 });
 
@@ -547,4 +553,848 @@ function initScrollEffects() {
       header.classList.remove('scrolled');
     }
   });
+}
+
+/* ==========================================================================
+   9. INTERACTIVE PRE-MORTEM SANDBOX ENGINE (TRY YOUR OWN DECISION)
+   ========================================================================== */
+const sandboxPresets = {
+  dubai_hub: {
+    text: "Commit AED 650,000 to establish a 12,000 sq ft logistics facility in Dubai South to reduce regional fulfillment latency and capture Gulf e-commerce supply contracts.",
+    capex: 650000,
+    cash: 920000,
+    horizon: 6,
+    failureTitle: "Dubai South Facility Stalls in Month 4: Customs Licensing & Working Capital Squeeze",
+    failureDesc: "By Month 5, the AED 650,000 capex has depleted liquid reserves to AED 270,000. Municipal inspection and customs trade licensing experienced an unhedged 44-day clearance lag, delaying tenant move-in while fixed lease amortizes. Without confirmed pre-orders, cash burn jumps 162% above baseline.",
+    cfoScore: "CRITICAL SQUEEZE",
+    cfoColor: "#ef4444",
+    cfoDetail: "Runway drops to 2.4 months. Cash buffer drops below emergency AED 300,000 threshold.",
+    croScore: "HIGH VENDOR RISK",
+    croColor: "#f59e0b",
+    croDetail: "Single point of failure on primary contractor fit-out timeline (+44 day estimated slippage).",
+    opsScore: "PRE-SALES REMEDY",
+    opsColor: "#03aa5c",
+    opsDetail: "Must pre-secure binding 3PL customer contracts before lease execution.",
+    antidotes: [
+      {
+        risk: "Working capital drops below emergency payroll threshold",
+        solution: "Lock emergency AED 120,000 pre-approved credit facility with Dubai Islamic Bank before signing lease.",
+        owner: "CFO",
+        deadline: "Nov 02, 2026",
+        status: "Mandatory"
+      },
+      {
+        risk: "Customs & commercial licensing delay stretches past 30 days",
+        solution: "Execute expedited commercial trade permit via Dubai South Freezone one-stop VIP portal.",
+        owner: "Operations Lead",
+        deadline: "Nov 14, 2026",
+        status: "Assigned"
+      },
+      {
+        risk: "Warehouse capacity sits idle post-commissioning",
+        solution: "Pre-sign 2 binding Letters of Intent with e-commerce distributors representing 55% rack capacity.",
+        owner: "Head of Sales",
+        deadline: "Nov 21, 2026",
+        status: "Mandatory"
+      }
+    ]
+  },
+  machinery: {
+    text: "Invest AED 300,000 into high-throughput automated packaging tooling to triple output capacity for GCC retail accounts.",
+    capex: 300000,
+    cash: 410000,
+    horizon: 6,
+    failureTitle: "Tooling Delivery Lag in Month 3 Triggers Severe Liquidity Strain",
+    failureDesc: "By Month 4, the AED 300,000 disbursement has drained unencumbered cash. European shipping delay pushes commissioning back 65 days while tooling amortization starts. Factory floor sits idle, burning fixed overhead.",
+    cfoScore: "MODERATE SQUEEZE",
+    cfoColor: "#f59e0b",
+    cfoDetail: "Cash buffer drops to AED 110,000. Any emergency supplier variance causes cash crunch.",
+    croScore: "CRITICAL SINGLE VENDOR",
+    croColor: "#ef4444",
+    croDetail: "100% reliance on single Italian manufacturer for proprietary replacement components.",
+    opsScore: "READINESS LOCKED",
+    opsColor: "#03aa5c",
+    opsDetail: "Power reinforcement and factory floor ready within 14 days of arrival.",
+    antidotes: [
+      {
+        risk: "Supplier delivery slips beyond 45 days",
+        solution: "Contractually tie 30% of machine purchase payment to verified on-site port arrival & commissioning.",
+        owner: "CFO",
+        deadline: "Oct 28, 2026",
+        status: "Mandatory"
+      },
+      {
+        risk: "Proprietary component failure during initial calibration",
+        solution: "Secure secondary tooling maintenance retainer with regional JAFZA mechanical engineering partner.",
+        owner: "Operations Manager",
+        deadline: "Nov 08, 2026",
+        status: "Assigned"
+      },
+      {
+        risk: "Customer demand ramp trails production capacity",
+        solution: "Require 3 signed purchase orders with 20% advance milestone deposits from FMCG buyers.",
+        owner: "Head of Sales",
+        deadline: "Nov 15, 2026",
+        status: "Mandatory"
+      }
+    ]
+  },
+  sales_scale: {
+    text: "Allocate AED 480,000 to hire and ramp 8 enterprise B2B sales reps across UAE and Saudi Arabia to double quarterly pipeline.",
+    capex: 480000,
+    cash: 750000,
+    horizon: 6,
+    failureTitle: "Sales Rep Ramp Lag & Long B2B Sales Cycles Create Month 5 Cash Deficit",
+    failureDesc: "By Month 5, recruiter fees and base salaries consume AED 480,000 while average enterprise sales cycle averages 140 days. Zero deals close in Q1, causing unhedged operating deficit of AED 195,000.",
+    cfoScore: "HIGH BURN RATE",
+    cfoColor: "#ef4444",
+    cfoDetail: "Fixed overhead expands by AED 80,000/mo without corresponding gross margin recognition.",
+    croScore: "EXECUTION RISK",
+    croColor: "#f59e0b",
+    croDetail: "Hiring ramp takes 90 days instead of planned 30 days due to regional talent shortage.",
+    opsScore: "ENABLEMENT DEFICIT",
+    opsColor: "#f59e0b",
+    opsDetail: "CRM sales enablement collaterals and pricing approvals are unstandardized.",
+    antidotes: [
+      {
+        risk: "Enterprise sales cycle outlasts remaining cash runway",
+        solution: "Structure sales compensation with 40% performance commission and 90-day pipeline milestones.",
+        owner: "VP Sales",
+        deadline: "Nov 05, 2026",
+        status: "Mandatory"
+      },
+      {
+        risk: "Hiring delay burns recruitment fees with zero productivity",
+        solution: "Hire initial cohort of 3 senior reps first; gate remaining 5 hires upon hitting AED 250k pipeline quota.",
+        owner: "CEO",
+        deadline: "Nov 12, 2026",
+        status: "Mandatory"
+      },
+      {
+        risk: "Working capital drawdown threatens base operations",
+        solution: "Ring-fence 4 months of operational payroll reserve in an escrow account.",
+        owner: "CFO",
+        deadline: "Oct 30, 2026",
+        status: "Assigned"
+      }
+    ]
+  },
+  erp_cloud: {
+    text: "Commit AED 220,000 to migrate legacy on-premise ERP & accounting database to unified cloud architecture.",
+    capex: 220000,
+    cash: 350000,
+    horizon: 6,
+    failureTitle: "Data Migration Errors & Unbudgeted Consulting Fees Squeeze IT Budget",
+    failureDesc: "By Month 4, data mapping complexity between legacy accounting and the new cloud schema triggers a 3-week billing halt. Implementation partner bills an unbudgeted AED 95,000 in change orders.",
+    cfoScore: "BUDGET OVERRUN",
+    cfoColor: "#f59e0b",
+    cfoDetail: "Change orders escalate project cost by 43% above baseline quotation.",
+    croScore: "BUSINESS DOWNTIME",
+    croColor: "#ef4444",
+    croDetail: "Cutover scheduled during month-end closes risks 14-day receivable collection blackout.",
+    opsScore: "STAFF ADOPTION LAG",
+    opsColor: "#f59e0b",
+    opsDetail: "Accounting team productivity drops 35% during uncalibrated transition.",
+    antidotes: [
+      {
+        risk: "Implementation partner billing overruns and scope creep",
+        solution: "Convert consultant contract to fixed-price milestone delivery with strict penalty for delay.",
+        owner: "CFO",
+        deadline: "Nov 01, 2026",
+        status: "Mandatory"
+      },
+      {
+        risk: "Data corruption or customer billing interruption",
+        solution: "Mandate 30-day dual-run audit where legacy ERP and cloud ERP run in parallel before final cutover.",
+        owner: "CTO / Lead Architect",
+        deadline: "Nov 18, 2026",
+        status: "Mandatory"
+      },
+      {
+        risk: "Team resistance and administrative bottlenecks",
+        solution: "Conduct 2-week pre-launch workflow certification for finance and inventory managers.",
+        owner: "Operations Director",
+        deadline: "Nov 25, 2026",
+        status: "Assigned"
+      }
+    ]
+  },
+  custom: {
+    text: "",
+    capex: 500000,
+    cash: 800000,
+    horizon: 6,
+    failureTitle: "Capital Squeeze in Month 4: Cash Drain Outpaces Revenue Recognition",
+    failureDesc: "Under simulated execution, unexpected lead time variance and operational overhead deplete 72% of liquid reserves before positive unit economics are unlocked.",
+    cfoScore: "LIQUIDITY WARNING",
+    cfoColor: "#f59e0b",
+    cfoDetail: "Working capital drawdown leaves company vulnerable to standard commercial shocks.",
+    croScore: "UNHEDGED VENDOR DEPENDENCY",
+    croColor: "#ef4444",
+    croDetail: "Assumptions lack verified supplier service level agreements (SLAs).",
+    opsScore: "EXECUTION GAP",
+    opsColor: "#03aa5c",
+    opsDetail: "Milestone gating must be enforced prior to subsequent capital tranches.",
+    antidotes: [
+      {
+        risk: "Cash buffer drains faster than customer receivables arrive",
+        solution: "Establish a guaranteed revolving working capital buffer of at least 25% of committed capex.",
+        owner: "CFO",
+        deadline: "Nov 04, 2026",
+        status: "Mandatory"
+      },
+      {
+        risk: "Milestones slip without contractual accountability",
+        solution: "Structure contractor and vendor payments tied to verified delivery checkpoints.",
+        owner: "Operations Lead",
+        deadline: "Nov 16, 2026",
+        status: "Assigned"
+      },
+      {
+        risk: "Customer adoption curve trails planned utilization",
+        solution: "Pre-validate 3 commercial commitments with signed letters of intent prior to deployment.",
+        owner: "Head of Sales",
+        deadline: "Nov 24, 2026",
+        status: "Mandatory"
+      }
+    ]
+  }
+};
+
+let currentActiveSandboxData = sandboxPresets.dubai_hub;
+
+function initSandbox() {
+  const textInput = document.getElementById('sandboxDecisionText');
+  const capexInput = document.getElementById('sandboxCapex');
+  const cashInput = document.getElementById('sandboxCash');
+
+  if (!textInput || !capexInput || !cashInput) return;
+
+  // Initialize with dubai_hub preset
+  loadSandboxPreset('dubai_hub');
+}
+
+function loadSandboxPreset(key) {
+  const data = sandboxPresets[key];
+  if (!data) return;
+
+  currentActiveSandboxData = data;
+
+  // Update chip styles
+  document.querySelectorAll('.sandbox-chip').forEach(c => c.classList.remove('active'));
+  if (event && event.target && event.target.classList.contains('sandbox-chip')) {
+    event.target.classList.add('active');
+  }
+
+  // Populate form fields
+  const textInput = document.getElementById('sandboxDecisionText');
+  const capexInput = document.getElementById('sandboxCapex');
+  const cashInput = document.getElementById('sandboxCash');
+  const horizonInput = document.getElementById('sandboxHorizon');
+
+  if (textInput) textInput.value = data.text;
+  if (capexInput) capexInput.value = data.capex;
+  if (cashInput) cashInput.value = data.cash;
+  if (horizonInput) horizonInput.value = data.horizon;
+
+  updateSandboxBadges();
+  renderSandboxResults(data);
+}
+
+function updateSandboxBadges() {
+  const capexInput = document.getElementById('sandboxCapex');
+  const cashInput = document.getElementById('sandboxCash');
+  const capexBadge = document.getElementById('sandboxCapexBadge');
+  const cashBadge = document.getElementById('sandboxCashBadge');
+
+  if (capexInput && capexBadge) {
+    const val = parseInt(capexInput.value, 10) || 0;
+    capexBadge.textContent = `AED ${val.toLocaleString()}`;
+  }
+
+  if (cashInput && cashBadge) {
+    const val = parseInt(cashInput.value, 10) || 0;
+    cashBadge.textContent = `AED ${val.toLocaleString()}`;
+  }
+}
+
+function runSandboxAudit(e) {
+  if (e) e.preventDefault();
+
+  const text = document.getElementById('sandboxDecisionText').value.trim();
+  const capex = parseInt(document.getElementById('sandboxCapex').value, 10) || 500000;
+  const cash = parseInt(document.getElementById('sandboxCash').value, 10) || 800000;
+  const horizon = document.getElementById('sandboxHorizon').value;
+
+  const ticker = document.getElementById('sandboxTicker');
+  const results = document.getElementById('sandboxResults');
+  const runBtn = document.getElementById('sandboxRunBtn');
+
+  if (!ticker || !results) return;
+
+  // Show progress ticker, disable run button
+  ticker.style.display = 'block';
+  results.style.opacity = '0.35';
+  if (runBtn) {
+    runBtn.disabled = true;
+    runBtn.style.opacity = '0.6';
+  }
+
+  const pBar = document.getElementById('tickerProgressBar');
+  const pText = document.getElementById('tickerPercent');
+  const pTitle = document.getElementById('tickerStepTitle');
+
+  // Animation sequence through 4 phases
+  const steps = [
+    { pct: '28%', title: '01 DATA INTAKE: Financial Buffer & Supply Chain Telemetry Verified...', id: 'tickerStep1' },
+    { pct: '56%', title: '02 FAST-FORWARD: Simulating Month 6 Post-Disaster Collapse...', id: 'tickerStep2' },
+    { pct: '84%', title: '03 STRESS TEST: Multi-Agent Adversarial Synthesis Active...', id: 'tickerStep3' },
+    { pct: '100%', title: '04 PROTOCOL: Reverse-Engineered Antidotes Locked & Hash Signed.', id: 'tickerStep4' }
+  ];
+
+  let stepIdx = 0;
+  const interval = setInterval(() => {
+    if (stepIdx < steps.length) {
+      const s = steps[stepIdx];
+      if (pBar) pBar.style.width = s.pct;
+      if (pText) pText.textContent = s.pct;
+      if (pTitle) pTitle.textContent = s.title;
+
+      // Mark step item
+      document.querySelectorAll('.ticker-step-item').forEach(el => el.classList.remove('active'));
+      const activeItem = document.getElementById(s.id);
+      if (activeItem) {
+        activeItem.classList.add('active');
+        activeItem.classList.add('done');
+      }
+
+      stepIdx++;
+    } else {
+      clearInterval(interval);
+      setTimeout(() => {
+        ticker.style.display = 'none';
+        results.style.opacity = '1';
+        if (runBtn) {
+          runBtn.disabled = false;
+          runBtn.style.opacity = '1';
+        }
+
+        // Generate customized data if user wrote custom proposal
+        const computedData = generateDynamicAuditData(text, capex, cash, horizon);
+        currentActiveSandboxData = computedData;
+        renderSandboxResults(computedData);
+      }, 250);
+    }
+  }, 180);
+}
+
+function generateDynamicAuditData(text, capex, cash, horizon) {
+  const lower = text.toLowerCase();
+  const burnPct = Math.round((capex / (cash || 1)) * 100);
+  const failureProb = Math.min(94.2, Math.max(52.8, Math.round(burnPct * 0.65 + 32)));
+
+  // If text matches one of our presets, use calibrated preset
+  for (const key of ['dubai_hub', 'machinery', 'sales_scale', 'erp_cloud']) {
+    if (text.includes(sandboxPresets[key].text.slice(0, 25))) {
+      const p = { ...sandboxPresets[key], capex, cash, horizon };
+      return p;
+    }
+  }
+
+  // Otherwise synthesize dynamic result
+  let domain = 'Capital Expansion';
+  let riskMode = 'Unhedged Operational Friction';
+  let croMode = 'Vendor Lead Time Variance';
+
+  if (lower.includes('warehouse') || lower.includes('logistics') || lower.includes('dubai') || lower.includes('fleet')) {
+    domain = 'Regional Logistics & Infrastructure';
+    riskMode = 'Customs Clearance & Municipality Inspection Lag (+42 days)';
+    croMode = 'Primary Contractor Fit-Out Slippage';
+  } else if (lower.includes('machine') || lower.includes('factory') || lower.includes('tooling') || lower.includes('equipment')) {
+    domain = 'Industrial Tooling & Capex';
+    riskMode = 'Component Delivery Bottleneck & Unbudgeted Commissioning Overhead';
+    croMode = 'Single-Source Tooling Manufacturer Dependency';
+  } else if (lower.includes('hire') || lower.includes('sales') || lower.includes('team') || lower.includes('engineer')) {
+    domain = 'Team Scaling & Compensation';
+    riskMode = 'Ramp Latency & Extended Enterprise Sales Cycle Outlasting Runway';
+    croMode = 'Fixed Payroll Expansion Without Confirmed Gross Margin';
+  } else if (lower.includes('software') || lower.includes('erp') || lower.includes('cloud') || lower.includes('ai')) {
+    domain = 'Technology & Cloud Architecture';
+    riskMode = 'Consulting Scope Creep & Data Integration Blackout';
+    croMode = 'Implementation Partner Change Order Inflation (+40%)';
+  }
+
+  const remainingCash = Math.max(0, cash - capex);
+
+  return {
+    text: text || 'Enterprise Strategic Initiative',
+    capex,
+    cash,
+    horizon,
+    failureTitle: `Simulated Failure State in Month ${Math.round(horizon * 0.65)}: ${riskMode}`,
+    failureDesc: `By Month ${Math.round(horizon * 0.7)}, committing AED ${capex.toLocaleString()} reduces liquid working buffer to AED ${remainingCash.toLocaleString()}. Without contractual safeguards, operational delays inflate monthly overhead by ${Math.min(180, Math.round(burnPct * 1.4))}%, exposing the balance sheet to acute liquidity distress.`,
+    cfoScore: remainingCash < capex * 0.3 ? 'CRITICAL SQUEEZE' : 'MODERATE SQUEEZE',
+    cfoColor: remainingCash < capex * 0.3 ? '#ef4444' : '#f59e0b',
+    cfoDetail: `Unencumbered buffer drops to AED ${remainingCash.toLocaleString()}. Requires minimum AED ${Math.round(capex * 0.2).toLocaleString()} revolving credit hedge.`,
+    croScore: 'HIGH EXPOSURE',
+    croColor: '#f59e0b',
+    croDetail: `${croMode}: Missing legally binding milestone penalty clauses.`,
+    opsScore: 'PREVENTATIVE REMEDY',
+    opsColor: '#03aa5c',
+    opsDetail: 'Require 3 pre-signed customer or supplier commitments prior to fund release.',
+    antidotes: [
+      {
+        risk: `Cash buffer sinks below payroll threshold during month ${Math.round(horizon * 0.5)}`,
+        solution: `Establish AED ${Math.round(capex * 0.25).toLocaleString()} standby bank facility before authorizing agreement.`,
+        owner: 'CFO',
+        deadline: 'Nov 02, 2026',
+        status: 'Mandatory'
+      },
+      {
+        risk: 'Operational milestone delivery delayed by external partners',
+        solution: 'Contractually link 35% of capital disbursement to verified delivery and SLA audits.',
+        owner: 'COO / Operations Lead',
+        deadline: 'Nov 12, 2026',
+        status: 'Assigned'
+      },
+      {
+        risk: 'Revenue recognition trails initial capital amortization',
+        solution: 'Pre-secure 2 binding purchase orders or customer LOIs with upfront milestone deposits.',
+        owner: 'Head of Sales',
+        deadline: 'Nov 20, 2026',
+        status: 'Mandatory'
+      }
+    ]
+  };
+}
+
+function renderSandboxResults(data) {
+  const probEl = document.getElementById('resFailureProb');
+  const titleEl = document.getElementById('resFailureTitle');
+  const descEl = document.getElementById('resFailureDesc');
+
+  const cfoScore = document.getElementById('resCfoScore');
+  const cfoDetail = document.getElementById('resCfoDetail');
+  const croScore = document.getElementById('resCroScore');
+  const croDetail = document.getElementById('resCroDetail');
+  const opsScore = document.getElementById('resOpsScore');
+  const opsDetail = document.getElementById('resOpsDetail');
+
+  const list = document.getElementById('sandboxAntidotesList');
+  const hashEl = document.getElementById('resAuditHash');
+  const countEl = document.getElementById('resAntidoteCount');
+
+  if (titleEl) titleEl.textContent = data.failureTitle;
+  if (descEl) descEl.textContent = data.failureDesc;
+
+  if (cfoScore) {
+    cfoScore.textContent = data.cfoScore;
+    cfoScore.style.color = data.cfoColor;
+  }
+  if (cfoDetail) cfoDetail.textContent = data.cfoDetail;
+
+  if (croScore) {
+    croScore.textContent = data.croScore;
+    croScore.style.color = data.croColor;
+  }
+  if (croDetail) croDetail.textContent = data.croDetail;
+
+  if (opsScore) {
+    opsScore.textContent = data.opsScore;
+    opsScore.style.color = data.opsColor;
+  }
+  if (opsDetail) opsDetail.textContent = data.opsDetail;
+
+  // Antidotes cards
+  if (list && data.antidotes) {
+    list.innerHTML = data.antidotes.map((a, idx) => `
+      <div class="antidote-card">
+        <div class="antidote-risk-tag">
+          <span>⚠ CONDITION 0${idx + 1}:</span> ${a.risk}
+        </div>
+        <div class="antidote-solution">
+          ${a.solution}
+        </div>
+        <div class="antidote-meta-row">
+          <span>Assigned Owner: <strong>${a.owner}</strong></span>
+          <span>Deadline: <strong>${a.deadline}</strong></span>
+          <span style="color:#03aa5c;">Status: <strong>${a.status}</strong></span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  if (countEl && data.antidotes) {
+    countEl.textContent = `${data.antidotes.length} Mandatory Antidotes Locked`;
+  }
+
+  // Random hash verification
+  if (hashEl) {
+    const hex = Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, '0');
+    hashEl.textContent = `0x9c${hex}...${Math.floor(Math.random() * 9999)}`;
+  }
+}
+
+function openDecisionMemoModal() {
+  const modal = document.getElementById('memoModal');
+  if (!modal) return;
+
+  const data = currentActiveSandboxData || sandboxPresets.dubai_hub;
+
+  const premise = document.getElementById('memoPremise');
+  const capex = document.getElementById('memoCapex');
+  const cash = document.getElementById('memoCash');
+  const failure = document.getElementById('memoFailure');
+  const list = document.getElementById('memoAntidoteList');
+  const hash = document.getElementById('memoHash');
+  const date = document.getElementById('memoDate');
+
+  if (premise) premise.textContent = data.text;
+  if (capex) capex.textContent = `AED ${Number(data.capex).toLocaleString()}`;
+  if (cash) cash.textContent = `AED ${Number(data.cash).toLocaleString()}`;
+  if (failure) failure.textContent = data.failureDesc;
+
+  if (list && data.antidotes) {
+    list.innerHTML = data.antidotes.map((a, i) => `
+      <div style="font-size:0.8rem; border-left:2px solid #000; padding-left:0.6rem; margin-bottom:0.4rem;">
+        <strong>[0${i + 1}] ${a.owner}:</strong> ${a.solution}
+        <div style="font-size:0.7rem; color:#666;">Deadline: ${a.deadline} • Requirement: ${a.status}</div>
+      </div>
+    `).join('');
+  }
+
+  if (hash) {
+    hash.textContent = document.getElementById('resAuditHash')?.textContent || '0x9c41...77e2';
+  }
+  if (date) {
+    date.textContent = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
+  }
+
+  modal.classList.add('active');
+}
+
+function sendToBoardFromSandbox() {
+  const text = (document.getElementById('sandboxDecisionText')?.value || '').toLowerCase();
+  const topicSelect = document.getElementById('boardTopicSelect');
+
+  if (topicSelect) {
+    if (text.includes('warehouse') || text.includes('logistics') || text.includes('dubai')) {
+      topicSelect.value = 'dubai_hub';
+    } else if (text.includes('cloud') || text.includes('erp') || text.includes('software')) {
+      topicSelect.value = 'erp_cloud';
+    } else {
+      topicSelect.value = 'production';
+    }
+    changeBoardTopic(topicSelect.value);
+  }
+
+  // Smooth scroll
+  const boardEl = document.getElementById('board');
+  if (boardEl) {
+    boardEl.scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => {
+      startBoardDebate();
+    }, 600);
+  }
+}
+
+
+/* ==========================================================================
+   11. AI BOARDROOM ADVERSARIAL DELIBERATION ENGINE
+   ========================================================================== */
+const boardroomDebates = {
+  production: {
+    title: "Capex Allocation for Production Line [AED 300,000]",
+    consensusScore: 76,
+    consensusText: "APPROVAL INDEX: 76% — CONDITIONAL GREENLIGHT (2 ANTIDOTES MANDATED)",
+    steps: [
+      {
+        agent: "ceo",
+        avatar: "CEO",
+        name: "CEO Agent / Master Orchestrator",
+        role: "Domain: Strategic Alignment & Multi-Agent Synthesis",
+        speech: "Opening deliberation on the AED 300,000 automated tooling initiative. Expanding production capacity aligns directly with our 18-month enterprise retail goals. However, we do not commit capital blindly. CFO Agent, audit liquidity and downside buffer.",
+        badge: "● PROPOSAL TABLED // OPENING MULTI-AGENT AUDIT"
+      },
+      {
+        agent: "cfo",
+        avatar: "CFO",
+        name: "CFO Agent / Capital & Liquidity",
+        role: "Domain: Working Capital Runway, Debt Capacity & Payback Math",
+        speech: "Our unencumbered cash balance is currently AED 410,000. Spending AED 300,000 upfront leaves only AED 110,000 buffer. Under a 3-month installation delay scenario, our burn jumps by AED 45,000. I mandate securing an emergency credit line of at least AED 60,000 before PO execution.",
+        badge: "⚠ FINANCIAL AUDIT: MANDATORY OVERDRAFT HEDGE REQUIRED"
+      },
+      {
+        agent: "risk",
+        avatar: "CRO",
+        name: "Chief Risk Officer Agent",
+        role: "Domain: Failure Mode Analysis & Adversarial Pre-Mortem",
+        speech: "Pre-Mortem fast-forward indicates 73% of regional manufacturing failures stem from single-vendor tooling reliance. If the Italian supplier encounters customs delays, the machine sits idle while depreciation begins. We must contractually enforce delay penalties and identify backup component sources.",
+        badge: "⚠ RISK THREAT: SINGLE VENDOR DEPENDENCY IDENTIFIED"
+      },
+      {
+        agent: "sales",
+        avatar: "SLS",
+        name: "Sales Strategy Agent",
+        role: "Domain: Pipeline Conversion, Customer Veracity & Pricing",
+        speech: "Sales pipeline currently shows only 2 tier-1 retail accounts in active negotiation, covering 40% of planned machine volume. To protect cash payback, my team must lock 3 signed Letters of Intent with advance milestone deposits before machine dispatch.",
+        badge: "✓ PIPELINE VERDICT: PRE-VALIDATE 3 PURCHASE ORDERS"
+      },
+      {
+        agent: "ops",
+        avatar: "OPS",
+        name: "Operations & Supply Chain Agent",
+        role: "Domain: Tooling Commissioning, Factory Floor & Logistics",
+        speech: "Factory electrical reinforcement and floor specs require 14 days prior to delivery. JAFZA port clearance currently averages 9 days. Operational readiness is verified as long as backup technicians are on standby for day 1 commissioning.",
+        badge: "✓ OPERATIONS AUDIT: FLOOR SPECIFICATIONS VERIFIED"
+      },
+      {
+        agent: "ceo",
+        avatar: "CEO",
+        name: "CEO Agent / Master Orchestrator",
+        role: "Domain: Final Executive Synthesis & Antidote Binding",
+        speech: "Synthesis achieved. The board grants CONDITIONAL GREENLIGHT. Antidote #1 (CFO credit line) and Antidote #2 (Sales binding POs) are legally binding conditions precedent. Procurement will not disburse funds until both are signed off.",
+        badge: "✓ FINAL SYNTHESIS: CONDITIONAL GREENLIGHT LOCKED"
+      }
+    ]
+  },
+  dubai_hub: {
+    title: "Dubai South Logistics Hub Expansion [AED 650,000]",
+    consensusScore: 82,
+    consensusText: "APPROVAL INDEX: 82% — APPROVED WITH MILESTONE GATES",
+    steps: [
+      {
+        agent: "ceo",
+        avatar: "CEO",
+        name: "CEO Agent / Master Orchestrator",
+        role: "Domain: Strategic Alignment & Regional Vision",
+        speech: "Deliberating AED 650,000 commitment to lease a 12,000 sq ft logistics facility in Dubai South. This positions us squarely in the Dubai D33 economic corridor and reduces regional delivery latency by 45%. CFO, audit balance sheet impact.",
+        badge: "● DUBAI EXPANSION PROPOSAL // INITIATING BOARD AUDIT"
+      },
+      {
+        agent: "cfo",
+        avatar: "CFO",
+        name: "CFO Agent / Capital & Liquidity",
+        role: "Domain: Working Capital Runway & Cash Burn",
+        speech: "Cash buffer is AED 920,000. Spending AED 650,000 reduces cash to AED 270,000. If trade license approvals slip 45 days, fixed lease amortizes at AED 48,000/mo without revenue. We must lock an AED 120,000 credit facility before signing the lease.",
+        badge: "⚠ CASH BUFFER SQUEEZE: AED 120,000 FACILITY REQUIRED"
+      },
+      {
+        agent: "risk",
+        avatar: "CRO",
+        name: "Chief Risk Officer Agent",
+        role: "Domain: Regulatory & Licensing Risk Analysis",
+        speech: "Municipal trade and dangerous goods inspections in Dubai South currently take 30 to 48 days. Contractor fit-out delays represent a secondary bottleneck. We must route licensing through the expedited Freezone VIP one-stop window.",
+        badge: "⚠ REGULATORY BOTTLENECK: FAST-TRACK PERMITTING MANDATED"
+      },
+      {
+        agent: "sales",
+        avatar: "SLS",
+        name: "Sales Strategy Agent",
+        role: "Domain: 3PL & E-Commerce Pipeline",
+        speech: "Two regional e-commerce marketplaces are eager to outsource fulfillment. We will secure 2 signed agreements guaranteeing minimum monthly storage fees prior to lease commencement.",
+        badge: "✓ DEMAND CONFIRMED: 2 CLIENT COMMITMENTS IN PIPELINE"
+      },
+      {
+        agent: "ops",
+        avatar: "OPS",
+        name: "Operations & Supply Chain Agent",
+        role: "Domain: Warehouse Fit-out & WMS Setup",
+        speech: "Warehouse rack automation and barcode telemetry can be installed in 22 days. We have pre-negotiated fit-out terms with penalties of AED 1,500/day for contractor delay.",
+        badge: "✓ OPERATIONS READY: FIT-OUT PENALTIES CONTRACTED"
+      },
+      {
+        agent: "ceo",
+        avatar: "CEO",
+        name: "CEO Agent / Master Orchestrator",
+        role: "Domain: Final Executive Synthesis",
+        speech: "Consensus reached. We greenlight the Dubai South facility. Signing the lease is strictly contingent on the CFO credit line and Sales advance agreements being locked. Zero unhedged capital deployed.",
+        badge: "✓ CONSENSUS APPROVED: DUBAI EXPANSION CONDITIONAL GREENLIGHT"
+      }
+    ]
+  },
+  erp_cloud: {
+    title: "Core Cloud ERP & Accounting Migration [AED 220,000]",
+    consensusScore: 88,
+    consensusText: "APPROVAL INDEX: 88% — GREENLIGHT FOR PHASED MIGRATION",
+    steps: [
+      {
+        agent: "ceo",
+        avatar: "CEO",
+        name: "CEO Agent / Master Orchestrator",
+        role: "Domain: Enterprise Modernization",
+        speech: "Reviewing AED 220,000 ERP cloud migration. Eliminating fragmented spreadsheets and legacy on-premise silos gives us sub-second financial telemetry. CFO, evaluate implementation risk.",
+        badge: "● INFRASTRUCTURE PROPOSAL // SYSTEM AUDIT"
+      },
+      {
+        agent: "cfo",
+        avatar: "CFO",
+        name: "CFO Agent / Financial Architecture",
+        role: "Domain: Consulting Billing & Budget Variance",
+        speech: "Cloud migration projects average 43% consultant cost overruns. We must insist on a fixed-price deliverable contract with zero open-ended hourly billing, and run parallel books for 30 days.",
+        badge: "✓ FINANCIAL SAFEGUARD: FIXED-PRICE CONTRACT ONLY"
+      },
+      {
+        agent: "risk",
+        avatar: "CRO",
+        name: "Chief Risk Officer Agent",
+        role: "Domain: Business Continuity & Downtime",
+        speech: "Downtime during month-end or quarter-end closing could disrupt VAT filings and supplier payouts. The cutover must occur over a scheduled weekend with a rollback snapshot in place.",
+        badge: "✓ CONTINUITY PROTOCOL: ZERO DOWNTIME CUTOVER WINDOW"
+      },
+      {
+        agent: "sales",
+        avatar: "SLS",
+        name: "Sales Strategy Agent",
+        role: "Domain: CRM & Order Flow Synchronization",
+        speech: "Order intake and invoicing must remain live 24/7. As long as customer invoices are queued during the 48-hour migration window, sales operations will not be impacted.",
+        badge: "✓ SALES INTEGRITY: INVOICING QUEUE SECURED"
+      },
+      {
+        agent: "ops",
+        avatar: "OPS",
+        name: "Operations & Supply Chain Agent",
+        role: "Domain: Warehouse Inventory Synchronization",
+        speech: "Inventory physical audit will be completed on Friday night, followed by automated database reconciliation before Monday 8:00 AM.",
+        badge: "✓ INVENTORY AUDIT: WEEKEND RECONCILIATION LOCKED"
+      },
+      {
+        agent: "ceo",
+        avatar: "CEO",
+        name: "CEO Agent / Master Orchestrator",
+        role: "Domain: Final Executive Synthesis",
+        speech: "High-conviction greenlight. Migration approved under fixed-price terms and 30-day parallel book validation. Implementation starts Nov 01.",
+        badge: "✓ FINAL VERDICT: PHASED CLOUD MIGRATION AUTHORIZED"
+      }
+    ]
+  }
+};
+
+let currentDebateTopic = 'production';
+let currentDebateStep = 0;
+let debateTimer = null;
+let isDebating = false;
+
+function initBoardroomDebate() {
+  changeBoardTopic('production');
+}
+
+function changeBoardTopic(key) {
+  if (!boardroomDebates[key]) return;
+  currentDebateTopic = key;
+  resetBoardDebate();
+}
+
+function resetBoardDebate() {
+  stopBoardDebate();
+  currentDebateStep = 0;
+  displayDebateStep(currentDebateStep);
+}
+
+function toggleBoardDebate() {
+  if (isDebating) {
+    stopBoardDebate();
+  } else {
+    startBoardDebate();
+  }
+}
+
+function startBoardDebate() {
+  isDebating = true;
+  const playBtn = document.getElementById('debatePlayBtn');
+  const playIcon = document.getElementById('debatePlayIcon');
+  const playText = document.getElementById('debatePlayText');
+
+  if (playIcon) playIcon.textContent = '❚❚';
+  if (playText) playText.textContent = 'Pause Deliberation';
+  if (playBtn) playBtn.classList.add('active');
+
+  const topicData = boardroomDebates[currentDebateTopic];
+
+  displayDebateStep(currentDebateStep);
+
+  clearInterval(debateTimer);
+  debateTimer = setInterval(() => {
+    currentDebateStep++;
+    if (currentDebateStep >= topicData.steps.length) {
+      stopBoardDebate();
+      return;
+    }
+    displayDebateStep(currentDebateStep);
+  }, 4200);
+}
+
+function stopBoardDebate() {
+  isDebating = false;
+  clearInterval(debateTimer);
+  const playIcon = document.getElementById('debatePlayIcon');
+  const playText = document.getElementById('debatePlayText');
+  const playBtn = document.getElementById('debatePlayBtn');
+
+  if (playIcon) playIcon.textContent = '▶';
+  if (playText) playText.textContent = 'Resume Deliberation';
+  if (playBtn) playBtn.classList.remove('active');
+
+  const speakerBadge = document.getElementById('liveSpeakerBadge');
+  if (speakerBadge) speakerBadge.style.display = 'none';
+
+  document.querySelectorAll('.board-tab-btn').forEach(b => b.classList.remove('speaking'));
+}
+
+function nextBoardSpeaker() {
+  const topicData = boardroomDebates[currentDebateTopic];
+  currentDebateStep = (currentDebateStep + 1) % topicData.steps.length;
+  displayDebateStep(currentDebateStep);
+}
+
+function displayDebateStep(idx) {
+  const topicData = boardroomDebates[currentDebateTopic];
+  if (!topicData || !topicData.steps[idx]) return;
+
+  const step = topicData.steps[idx];
+
+  // Update tabs
+  document.querySelectorAll('.board-tab-btn').forEach(b => {
+    b.classList.remove('active');
+    b.classList.remove('speaking');
+  });
+
+  const tabId = `tab-${step.agent}`;
+  const activeTab = document.getElementById(tabId);
+  if (activeTab) {
+    activeTab.classList.add('active');
+    if (isDebating) activeTab.classList.add('speaking');
+  }
+
+  // Update speaker header
+  const avatar = document.getElementById('agentAvatar');
+  const name = document.getElementById('agentName');
+  const role = document.getElementById('agentRole');
+  const reasoning = document.getElementById('agentReasoning');
+  const badge = document.getElementById('agentBadge');
+  const liveBadge = document.getElementById('liveSpeakerBadge');
+
+  if (avatar) avatar.textContent = step.avatar;
+  if (name) name.textContent = step.name;
+  if (role) role.textContent = step.role;
+  if (reasoning) reasoning.innerHTML = `<p>${step.speech}</p>`;
+  if (badge) badge.innerHTML = `<span>${step.badge}</span>`;
+  if (liveBadge) liveBadge.style.display = isDebating ? 'inline-flex' : 'none';
+
+  // Smoothly update consensus score
+  const progressRatio = (idx + 1) / topicData.steps.length;
+  const currentConsensus = Math.round(45 + (topicData.consensusScore - 45) * progressRatio);
+  const meterFill = document.getElementById('consensusMeterFill');
+  const scoreTag = document.getElementById('consensusScoreTag');
+
+  if (meterFill) meterFill.style.width = `${currentConsensus}%`;
+  if (scoreTag) {
+    if (idx === topicData.steps.length - 1) {
+      scoreTag.textContent = topicData.consensusText;
+      scoreTag.style.color = '#b6f535';
+    } else {
+      scoreTag.textContent = `APPROVAL INDEX: ${currentConsensus}% — ADVERSARIAL DELIBERATION IN PROGRESS (SPEAKER ${idx + 1}/${topicData.steps.length})`;
+      scoreTag.style.color = '#f59e0b';
+    }
+  }
 }
