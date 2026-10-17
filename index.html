@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offc: The AI Decision Intelligence OS</title>
+  <meta name="description"
+    content="Offc is the AI Decision Intelligence OS for business platforms. We make invisible business risks visible before they happen through reverse-engineered pre-mortems.">
+  <link rel="icon" type="image/png" href="logo_trans2.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="noise-overlay"></div>
+
+  <!-- SITE HEADER / NAVIGATION -->
+  <header class="site-header" id="siteHeader">
+    <a href="#" class="brand-wrapper" title="Offc AI Decision Intelligence OS">
+      <img src="logo_trans2.png" alt="the OFFC ai logo" class="brand-logo-img" id="headerLogo">
+    </a>
+
+    <div class="nav-actions">
+      <a href="#simulator" class="nav-btn">Simulator</a>
+      <a href="#premortem" class="nav-btn">Pre-Mortem</a>
+      <a href="#board" class="nav-btn">AI Board</a>
+      <a href="#architecture" class="nav-btn secondary">Architecture</a>
+      <button class="nav-btn primary" onclick="openModal('access')">→ Launch Console</button>
+      <button class="nav-btn" onclick="openModal('menu')">Menu</button>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <!-- Retro Announcement Box -->
+    <div class="announcement-box">
+      <div class="announcement-header">
+        <span>Oct 17, 2026 • Offc Intelligence News</span>
+        <span>[SYS.VER 1.0]</span>
+      </div>
+      <div class="announcement-body">
+        We raised strategic institutional backing to deploy Decision Intelligence for SMEs
+        <br>
+        <a class="announcement-link" onclick="openModal('access')">View announcement & early access</a>
+      </div>
+    </div>
+
+    <div class="hero-content">
+      <p class="hero-subtag">Introducing Offc 1.0 …… Intelligence beyond chat</p>
+      <h1 class="hero-title">The First AI Decision Intelligence OS; Offc Gives High-Stakes Business The Clarity Of Code.
+      </h1>
+
+      <div class="hero-cta-group">
+        <a class="hero-cta-primary" onclick="openModal('access')">
+          <span>Launch OS Console</span>
+          <span style="font-size:1.1rem">↗</span>
+        </a>
+        <a class="hero-cta-link" href="#simulator">Try Scenario Simulator</a>
+        <a class="hero-cta-link" href="#architecture">▶ Watch System Architecture</a>
+      </div>
+    </div>
+
+    <!-- RETRO OS DESKTOP WORKSPACE (TS.AI.OS Style -> OFFC.OS 1.0) -->
+    <div class="os-workspace-container">
+      <div class="os-desktop dither-pattern">
+        <div class="os-desktop-grid">
+
+          <!-- Window 1: Data Intake -->
+          <div class="retro-window win-intake">
+            <div class="retro-window-header">
+              <span>DATA INTAKE // 01</span>
+              <div class="retro-window-controls">
+                <span class="retro-dot"></span>
+                <span class="retro-dot"></span>
+              </div>
+            </div>
+            <div class="retro-window-body">
+              <div class="pipeline-step">
+                <span class="pipeline-status"></span>
+                <div>
+                  <strong>Financials ERP:</strong> Q3 Cash Reserves AED 410,000
+                </div>
+              </div>
+              <div class="pipeline-step">
+                <span class="pipeline-status"></span>
+                <div>
+                  <strong>CRM Pipeline:</strong> 14 Pending Capex Inquiries
+                </div>
+              </div>
+              <div class="pipeline-step">
+                <span class="pipeline-status"></span>
+                <div>
+                  <strong>Vendor Telemetry:</strong> 94.2% Lead Time Reliability
+                </div>
+              </div>
+              <div class="pipeline-step">
+                <span class="pipeline-status"></span>
+                <div>
+                  <strong>Strategy Gap:</strong> SME blindspot detection active
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Window 2: Pre-Mortem Protocol -->
+          <div class="retro-window win-protocol">
+            <div class="retro-window-header">
+              <span>THE ANTIDOTE PROTOCOL // 07</span>
+              <div class="retro-window-controls">
+                <span class="retro-dot"></span>
+                <span class="retro-dot"></span>
+              </div>
+            </div>
+            <div class="retro-window-body">
+              <div class="protocol-tag-row">
+                <span class="protocol-badge active">01 Intake</span>
+                <span class="protocol-badge active">02 Context</span>
+                <span class="protocol-badge active" style="background:#b6f535;color:#000;">03 Pre-Mortem</span>
+                <span class="protocol-badge">04 Challenge</span>
+                <span class="protocol-badge">05 Antidotes</span>
+                <span class="protocol-badge">06 Scenarios</span>
+                <span class="protocol-badge">07 Journal</span>
+              </div>
+              <p style="font-size: 0.74rem; color: #444; margin-top: 0.4rem;">
+                <strong>Signature Protocol:</strong> Instead of asking questions, Offc assumes future failure and
+                backtraces critical blindspots before capital is deployed.
+              </p>
+            </div>
+          </div>
+
+          <!-- Window 3: Live System Clock -->
+          <div class="retro-window win-clock">
+            <div class="retro-window-header">
+              <span>Clock Tool 1.1</span>
+              <div class="retro-window-controls">
+                <span class="retro-dot"></span>
+              </div>
+            </div>
+            <div class="retro-window-body" style="text-align: center;">
+              <div style="font-size: 0.72rem; color: #555;" id="liveClockDate">Saturday, Oct 17, 2026</div>
+              <div class="live-clock-time" id="liveClockTime">08:49:00 GST</div>
+              <div style="margin-top: 0.35rem; font-size: 0.68rem; color: #03aa5c; font-weight: 700;">
+                ● OS KERNEL SYNCHRONIZED
+              </div>
+            </div>
+          </div>
+
+          <!-- Window 4: Benchmark Comparison Table -->
+          <div class="retro-window win-benchmark">
+            <div class="retro-window-header">
+              <span>CAPITAL RISK VISIBILITY BENCHMARK [DECISION OS vs LLMs]</span>
+              <div class="retro-window-controls">
+                <span class="retro-dot"></span>
+              </div>
+            </div>
+            <div class="retro-window-body">
+              <div class="benchmark-row highlight">
+                <span class="benchmark-name">Offc [Decision OS]</span>
+                <span>193.6x</span>
+                <div class="benchmark-bar-track">
+                  <div class="benchmark-bar-fill offc-fill" style="width: 96%;"></div>
+                </div>
+                <span class="benchmark-cost">$0.002</span>
+              </div>
+              <div class="benchmark-row">
+                <span class="benchmark-name">Claude Haiku 4.5</span>
+                <span>6.2x</span>
+                <div class="benchmark-bar-track">
+                  <div class="benchmark-bar-fill" style="width: 28%;"></div>
+                </div>
+                <span class="benchmark-cost">$19.49</span>
+              </div>
+              <div class="benchmark-row">
+                <span class="benchmark-name">Claude Opus 5</span>
+                <span>2.1x</span>
+                <div class="benchmark-bar-track">
+                  <div class="benchmark-bar-fill" style="width: 14%;"></div>
+                </div>
+                <span class="benchmark-cost">$176.05</span>
+              </div>
+              <div class="benchmark-row">
+                <span class="benchmark-name">Claude Sonnet 5</span>
+                <span>1.0x</span>
+                <div class="benchmark-bar-track">
+                  <div class="benchmark-bar-fill" style="width: 8%;"></div>
+                </div>
+                <span class="benchmark-cost">$117.38</span>
+              </div>
+              <div class="benchmark-row">
+                <span class="benchmark-name">Gpt-5.6-Luna</span>
+                <span>6.0x</span>
+                <div class="benchmark-bar-track">
+                  <div class="benchmark-bar-fill" style="width: 26%;"></div>
+                </div>
+                <span class="benchmark-cost">$3.31</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Window 5: System Meta -->
+          <div class="retro-window win-meta">
+            <div class="retro-window-header">
+              <span>Offc System Core</span>
+              <div class="retro-window-controls">
+                <span class="retro-dot"></span>
+              </div>
+            </div>
+            <div class="retro-window-body">
+              <img src="logo_trans2.png" alt="the OFFC ai logo"
+                style="height: 22px; width: auto; object-fit: contain; margin-bottom: 0.5rem; display: block;">
+              <div style="font-weight: 700; margin-bottom: 0.35rem;">THE EXTRA BRAIN</div>
+              <p style="font-size: 0.72rem; line-height: 1.4; color: #444;">
+                Transforming fragmented spreadsheets, supplier chats, and accounting reports into continuous
+                mathematical decision intelligence.
+              </p>
+              <div
+                style="margin-top: 0.75rem; font-size: 0.68rem; color: #666; border-top: 1px dashed #ccc; padding-top: 0.4rem;">
+                © 2026 Offc Inc. Grounded in verified evidence. Zero hallucinations.
+              </div>
+            </div>
+          </div>
+
+          <!-- Window 6: Interactive Glider / Game of Life Widget -->
+          <div class="retro-window win-glider">
+            <div class="retro-window-header">
+              <span>Glider 1.1 — Conway's Game of Life [Neural Heuristics Visualizer]</span>
+              <div class="retro-window-controls">
+                <span class="retro-dot"></span>
+              </div>
+            </div>
+            <div class="retro-window-body">
+              <div class="glider-container">
+                <div class="glider-grid" id="gliderGrid"></div>
+                <div class="glider-controls">
+                  <span style="font-size: 0.7rem; color: #555;">Click cells to toggle state</span>
+                  <div style="display: flex; gap: 0.4rem;">
+                    <button class="glider-btn" id="gliderToggleBtn">Pause</button>
+                    <button class="glider-btn" id="gliderRandomBtn">Random</button>
+                    <button class="glider-btn" id="gliderClearBtn">Clear</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: "WE TOOK THE OPPOSITE RESEARCH DIRECTION" -->
+  <section class="manifesto-section corner-frame">
+    <div class="corner-frame-bottom-left"></div>
+    <div class="corner-frame-bottom-right"></div>
+
+    <div class="manifesto-container">
+      <h2 class="section-huge-headline">We Took The Opposite Research Direction.</h2>
+
+      <div class="manifesto-grid">
+        <div class="manifesto-col">
+          <h4>Not Conversational Chat</h4>
+          <p>
+            Reinforcement Learning from Human Feedback (RLHF) optimized LLMs for conversational agreeableness. This
+            creates flattering assistants that nod along to bad business assumptions, invent hallucinated numbers, and
+            produce generic 5-point lists with zero accountability. For high-stakes capital allocation, chatbot advice
+            is a liability.
+          </p>
+
+          <h4>A New Class: Decision Intelligence OS</h4>
+          <p>
+            We engineered an OS natively calibrated for business reality. Offc executes a multi-agent adversarial
+            protocol: instead of answering "What do you think?", it simulates your company 6 months into the future
+            after catastrophic failure, systematically reverse-engineering every blindspot before you write the check.
+          </p>
+        </div>
+
+        <div class="manifesto-col">
+          <div class="telemetry-box">
+            <div
+              style="display:flex; justify-content:space-between; margin-bottom: 0.5rem; color:#fff; font-size: 0.7rem; border-bottom:1px solid #333; padding-bottom: 0.3rem;">
+              <span>[B.64] LIVE PRE-MORTEM RISK TELEMETRY</span>
+              <span id="telemetryStatus">STREAMING</span>
+            </div>
+            <div class="telemetry-code" id="telemetryStream">
+              Zm9yd2FyZCA2IG1vbnRoczoKLS0gQUVEIDMwMCwwMDAgY2FwZXggY29tbWl0dGVkCi0tIFN1cHBseSBjaGFpbiBkZWxheTogMzkgaG91cnMgbG9zdAotLSBDYXNoIGJ1ZmZlciBkcm9wczogPEFFRCA0NSwwMDAKLS0gQ3JpdGljYWwgQmxpbmRzcG90OiBDUE8gdW52ZXJpZmllZAoKQW50aWRvdGUgUHJvdG9jb2wgR2VuZXJhdGVkOgpDT05ESVRJT046IFZhbGlkYXRlIDMgUHVyY2hhc2UgT3JkZXJzIEJFRk9SRSBzaXRlIGRlcGxveW1lbnQu
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 Technical Pillars -->
+      <div class="pillars-row">
+        <div class="pillar-card">
+          <h5>Decisions, Not Strings</h5>
+          <p>Typed, schema-enforced output protocols that management, finance, and operations teams can act on directly.
+          </p>
+        </div>
+        <div class="pillar-card">
+          <h5>Calibrated Evidence</h5>
+          <p>Every analysis includes mathematical probability distributions grounded in real company accounting, not
+            speculation.</p>
+        </div>
+        <div class="pillar-card">
+          <h5>Assigned Antidotes</h5>
+          <p>Failure modes immediately map to concrete, preventative tasks assigned with strict deadlines to team
+            owners.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: "10X DEEPER RISK VISIBILITY: PRE-MORTEM VS CHATBOT" -->
+  <section class="stats-banner-section corner-frame" id="premortem">
+    <div class="corner-frame-bottom-left"></div>
+    <div class="corner-frame-bottom-right"></div>
+
+    <div class="manifesto-container">
+      <h2 class="big-stat-title">193.6x Faster,<br>444.6x Cheaper.</h2>
+      <div class="stat-subtitle">
+        *Based On High-Stakes SME Capital Allocations <a onclick="openModal('access')">(Proof)</a>
+      </div>
+
+      <!-- Side-by-Side Comparison Window -->
+      <div class="comparison-wrapper">
+        <div class="comparison-grid">
+
+          <!-- Column 1: The Chatbot Approach -->
+          <div class="compare-card flawed">
+            <div class="compare-card-title">
+              <span>The Chatbot Approach</span>
+              <span style="color:#ef4444;">FLAWED</span>
+            </div>
+            <div class="decision-bubble">
+              <strong>Question:</strong>
+              "Should we invest AED 300,000 in a new automated production line?"
+            </div>
+            <div class="engine-flow">
+              <div class="engine-step danger">
+                <strong>Generic LLM Output:</strong><br>
+                "Here are 5 general business tips: 1. Evaluate your market demand, 2. Review cash flow, 3. Inspect
+                machinery warranties..."
+              </div>
+              <div class="engine-step" style="background:#f3f4f6;">
+                <strong>Flaw:</strong> Zero verified company evidence. Assumptions remain unchecked. No accountability
+                if cash reserves dry up in month 3.
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 2: The Pre-Mortem Engine -->
+          <div class="compare-card grounded">
+            <div class="compare-card-title">
+              <span>The Pre-Mortem Engine</span>
+              <span style="color:#059669;">GROUNDED EVIDENCE</span>
+            </div>
+            <div class="decision-bubble" style="background:#f0fdf4; border-color:#22c55e;">
+              <strong>Offc Analysis Triggered:</strong>
+              "AED 300,000 Production Line Investment // Timeline: 6 months // Goal: Increase capacity"
+            </div>
+            <div class="engine-flow">
+              <div class="engine-step warning">
+                <strong>1. Fast-Forward Simulated Failure:</strong><br>
+                Month 6: The AED 300k is spent. Costs rise 150%. Capacity sits idle. Cash buffer drops below emergency
+                threshold.
+              </div>
+              <div class="engine-step success">
+                <strong>2. Reverse-Engineered Antidotes:</strong><br>
+                • Risk 1 (Demand): Lock 3 confirmed POs before machine dispatch.<br>
+                • Risk 2 (Cash Squeeze): CFO secures AED 60k overdraft line.<br>
+                • Risk 3 (Installation Delay): Lock backup parts supplier with penalties.
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="compare-metrics-row">
+          <div class="metric-pair">
+            <div class="metric-block">
+              <h6>Offc Intelligence OS</h6>
+              <p>Risk audit in 0.114s • Grounded in accounting</p>
+            </div>
+            <div class="metric-block">
+              <h6>Traditional LLMs</h6>
+              <p>Generic text in 8.566s • Unverified hallucinations</p>
+            </div>
+          </div>
+          <div>
+            <button class="nav-btn primary" onclick="openModal('access')">Run Your Pre-Mortem Audit →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE SCENARIO & ANTIDOTES SIMULATOR (PHASE 2) -->
+  <section class="simulator-section corner-frame" id="simulator">
+    <div class="corner-frame-bottom-left"></div>
+    <div class="corner-frame-bottom-right"></div>
+
+    <div class="simulator-container">
+      <span class="mono-tag" style="margin-bottom: 1rem;">Phase 2: Simulation & Antidotes</span>
+      <h2 class="section-huge-headline" style="margin-bottom: 1.5rem;">Linking Mathematical Scenarios To Assigned Human
+        Actions.</h2>
+      <p style="font-size: 1.15rem; max-width: 820px; margin-bottom: 2rem;">
+        Test how operational shocks impact payback timelines and automatically generate binding mitigation protocols for
+        your leadership team.
+      </p>
+
+      <div class="simulator-wrapper">
+        <div class="simulator-header">
+          <div class="simulator-title-group">
+            <h3>Interactive Capital Simulator</h3>
+            <p>Active Decision: Capex Allocation for Production Line [AED 300,000]</p>
+          </div>
+
+          <!-- Decision Preset Switcher -->
+          <div class="preset-switcher">
+            <button class="preset-btn active" onclick="loadPreset('production')">AED 300k Production Line</button>
+            <button class="preset-btn" onclick="loadPreset('expansion')">EU Team Expansion</button>
+            <button class="preset-btn" onclick="loadPreset('erp')">ERP Cloud Migration</button>
+          </div>
+        </div>
+
+        <div class="simulator-main-grid">
+
+          <!-- Column 1: Interactive Sliders & Live Payback Output -->
+          <div class="sliders-col">
+
+            <!-- Slider 1: Revenue Assumption -->
+            <div class="slider-group">
+              <div class="slider-label-row">
+                <span>1. Revenue Realization Assumption</span>
+                <span class="slider-value-badge" id="revValBadge">100% (AED 80,000/mo)</span>
+              </div>
+              <input type="range" min="50" max="150" value="100" class="custom-range" id="revSlider">
+              <div class="slider-subtext">Baseline customer order volume converted to recognized monthly billing.</div>
+            </div>
+
+            <!-- Slider 2: Operating Costs -->
+            <div class="slider-group">
+              <div class="slider-label-row">
+                <span>2. Operating Cost Escalation</span>
+                <span class="slider-value-badge" id="costValBadge">150% (AED 50,000/mo)</span>
+              </div>
+              <input type="range" min="80" max="200" value="150" class="custom-range" id="costSlider">
+              <div class="slider-subtext">Includes raw material inflation, tooling maintenance, and overtime shifts.
+              </div>
+            </div>
+
+            <!-- Slider 3: Installation Delay -->
+            <div class="slider-group">
+              <div class="slider-label-row">
+                <span>3. Supply Chain / Installation Delay</span>
+                <span class="slider-value-badge" id="delayValBadge">3 Months</span>
+              </div>
+              <input type="range" min="0" max="6" value="3" class="custom-range" id="delaySlider">
+              <div class="slider-subtext">Customs clearance, port bottleneck, and technician commissioning window.</div>
+            </div>
+
+            <!-- Live Output Hero Card -->
+            <div class="output-hero-card">
+              <h5>Calculated Telemetry Output</h5>
+              <div class="output-metric-highlight" id="outputPayback">Simple Payback: 10.0 Months</div>
+              <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 0.75rem;">
+                <span class="output-status-pill caution" id="outputRiskRating">Risk Level: Moderate Squeeze</span>
+                <span style="font-size: 0.8rem; color: #9ca3af;" id="outputRunway">Runway Impact: -AED 45,000</span>
+              </div>
+              <div style="font-size: 0.75rem; color: #d1d5db; border-top: 1px dashed #333; padding-top: 0.5rem;"
+                id="outputRecommendation">
+                Recommendation: Trigger Antidote Protocol #3 to hedge delivery lag before PO signoff.
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Column 2: Connected Action Plan / Antidotes -->
+          <div class="antidotes-col">
+            <div class="antidote-plan-header">
+              <span>Binding Action Plan [Antidotes]</span>
+              <span class="mono-tag lime">3 Assigned</span>
+            </div>
+
+            <div class="antidote-cards-list" id="antidoteList">
+
+              <div class="antidote-card">
+                <div class="antidote-risk-tag">
+                  <span>⚠ RISK:</span> Cash becomes tight during month 3-4
+                </div>
+                <div class="antidote-solution">
+                  Establish minimum AED 60,000 cash reserve & pre-approved credit facility.
+                </div>
+                <div class="antidote-meta-row">
+                  <span>Owner: <strong>CFO</strong></span>
+                  <span>Deadline: <strong>Oct 28, 2026</strong></span>
+                  <span>Status: <strong>Locked</strong></span>
+                </div>
+              </div>
+
+              <div class="antidote-card">
+                <div class="antidote-risk-tag">
+                  <span>⚠ RISK:</span> Demand uncertain / customer delays
+                </div>
+                <div class="antidote-solution">
+                  Validate 3 binding customer purchase orders before machine dispatch.
+                </div>
+                <div class="antidote-meta-row">
+                  <span>Owner: <strong>Head of Sales</strong></span>
+                  <span>Deadline: <strong>Nov 04, 2026</strong></span>
+                  <span>Status: <strong>In Progress</strong></span>
+                </div>
+              </div>
+
+              <div class="antidote-card">
+                <div class="antidote-risk-tag">
+                  <span>⚠ RISK:</span> Installation delayed by import supplier
+                </div>
+                <div class="antidote-solution">
+                  Secure secondary backup supplier for critical tooling components.
+                </div>
+                <div class="antidote-meta-row">
+                  <span>Owner: <strong>Operations Manager</strong></span>
+                  <span>Deadline: <strong>Nov 12, 2026</strong></span>
+                  <span>Status: <strong>Assigned</strong></span>
+                </div>
+              </div>
+
+            </div>
+
+            <div style="margin-top: 1.5rem; text-align: center;">
+              <button class="nav-btn primary" style="width: 100%; justify-content: center;"
+                onclick="openModal('access')">
+                Export Decision Journal & Lock Antidotes →
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI BOARD OF DIRECTORS REASONING CONSOLE -->
+  <section class="board-section corner-frame" id="board">
+    <div class="corner-frame-bottom-left"></div>
+    <div class="corner-frame-bottom-right"></div>
+
+    <div class="board-container">
+      <span class="mono-tag" style="margin-bottom: 1rem;">Multi-Agent Cognitive Synthesis</span>
+      <h2 class="section-huge-headline" style="margin-bottom: 1.5rem;">The AI Board of Directors.</h2>
+      <p style="font-size: 1.15rem; max-width: 820px;">
+        Orchestrated specialist reasoning, synthesized for the executive team. Each agent audits your decisions from
+        their functional domain before consensus is reached.
+      </p>
+
+      <div class="board-terminal-wrapper">
+        <div class="board-terminal-nav">
+          <button class="board-tab-btn active" onclick="switchAgent('ceo')">
+            <span>[01]</span> CEO Orchestrator
+          </button>
+          <button class="board-tab-btn" onclick="switchAgent('cfo')">
+            <span>[02]</span> CFO Agent
+          </button>
+          <button class="board-tab-btn" onclick="switchAgent('risk')">
+            <span>[03]</span> Chief Risk Officer
+          </button>
+          <button class="board-tab-btn" onclick="switchAgent('sales')">
+            <span>[04]</span> Sales Strategy
+          </button>
+          <button class="board-tab-btn" onclick="switchAgent('ops')">
+            <span>[05]</span> Operations & Supply
+          </button>
+        </div>
+
+        <div class="board-terminal-content">
+          <div class="agent-speech-header">
+            <div class="agent-avatar" id="agentAvatar">CEO</div>
+            <div class="agent-title-info">
+              <h4 id="agentName">CEO Agent / Master Orchestrator</h4>
+              <span id="agentRole">Domain: Strategic Alignment & Multi-Agent Synthesis</span>
+            </div>
+          </div>
+
+          <div class="agent-reasoning-body" id="agentReasoning">
+            <p>
+              "Evaluating the AED 300,000 production line proposal. While expanding production aligns with our 18-month
+              revenue target, the CFO Agent flagged a 42% risk of a working capital crunch if installation slips past 90
+              days."
+            </p>
+            <p>
+              "My synthesis: We approve the capital allocation conditionally. Antidotes #1 and #2 must be formally
+              signed off by finance and sales before contracts are signed with the European manufacturer."
+            </p>
+          </div>
+
+          <div class="agent-consensus-badge" id="agentBadge">
+            <span>✓ CONSENSUS STATUS: CONDITIONAL GREENLIGHT (2 ANTIDOTES PENDING)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SYSTEM ARCHITECTURE ("THE PERFECT BUILD") -->
+  <section class="arch-section corner-frame" id="architecture">
+    <div class="corner-frame-bottom-left"></div>
+    <div class="corner-frame-bottom-right"></div>
+
+    <div class="arch-container">
+      <span class="mono-tag" style="margin-bottom: 1rem;">Engineering Blueprint</span>
+      <h2 class="section-huge-headline" style="margin-bottom: 1.5rem;">The Perfect Build: System Architecture.</h2>
+      <p style="font-size: 1.15rem; max-width: 820px;">
+        Two synchronized flows. One seamless decision experience. Built machine-native with sub-second audit latencies.
+      </p>
+
+      <div class="arch-blueprint-card">
+        <div class="blueprint-flow">
+
+          <!-- Layer 1 -->
+          <div class="blueprint-layer">
+            <span class="blueprint-layer-tag">PRESENTATION LAYER // NEXT.JS, REACT & VANILLA CSS</span>
+            <div class="blueprint-nodes-row">
+              <div class="blueprint-node">Executive Dashboard</div>
+              <div class="blueprint-node">Context Workspace</div>
+              <div class="blueprint-node">Scenario Simulator</div>
+              <div class="blueprint-node">Decision Journal</div>
+            </div>
+          </div>
+
+          <div class="blueprint-arrow">▼ REST & WEBSOCKET PROTOCOLS ▼</div>
+
+          <!-- Layer 2 -->
+          <div class="blueprint-layer" style="background:#e0f2fe; border-color:#0284c7;">
+            <span class="blueprint-layer-tag" style="background:#0284c7;">THE BRIDGE // FASTAPI GATEWAY</span>
+            <div style="font-family:var(--font-mono); font-size:0.8rem; text-align:center; padding: 0.5rem 0;">
+              JWT Authentication • Enterprise Tenant Isolation • Sub-50ms Request Routing & Schema Validation
+            </div>
+          </div>
+
+          <div class="blueprint-arrow">▼ HIGH-PERFORMANCE ASYNC EXECUTION ▼</div>
+
+          <!-- Layer 3 -->
+          <div class="blueprint-layer">
+            <span class="blueprint-layer-tag">INTELLIGENCE KERNEL // PYTHON MULTI-AGENT BACKEND</span>
+            <div class="blueprint-nodes-row">
+              <div class="blueprint-node">Context Builder (RAG + Accounting)</div>
+              <div class="blueprint-node" style="background:#b6f535;">Agent Orchestrator (Board of Directors)</div>
+              <div class="blueprint-node">Scenario Engine (Monte Carlo Sim)</div>
+            </div>
+          </div>
+
+          <div class="blueprint-arrow">▼ SECURE DATA PERSISTENCE ▼</div>
+
+          <!-- Layer 4 -->
+          <div class="blueprint-layer" style="background:#0f172a; color:#fff; border-color:#000;">
+            <span class="blueprint-layer-tag" style="background:#3b82f6;">DATA VAULT // SUPABASE & POSTGRESQL</span>
+            <div
+              style="font-family:var(--font-mono); font-size:0.8rem; text-align:center; padding: 0.5rem 0; color:#cbd5e1;">
+              Row-Level Security • Cryptographic Decision Audit Trail • Immutable Pre-Mortem Records
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIBRANT GREEN BLOG / INTELLIGENCE FIELD NOTES SECTION -->
+  <section class="green-blog-section corner-frame" id="news">
+    <div class="corner-frame-bottom-left"></div>
+    <div class="corner-frame-bottom-right"></div>
+
+    <div class="green-blog-container">
+      <span class="mono-tag inverted" style="margin-bottom: 1rem;">Offc Intelligence Journal</span>
+      <h2 class="section-huge-headline" style="margin-bottom: 1.5rem;">Field Notes: High-Stakes Decisions In Production.
+      </h2>
+
+      <div class="blog-grid">
+        <!-- Main Story Card -->
+        <div class="blog-main-card">
+          <div class="blog-visual-box dither-pattern-dense">
+            <div
+              style="font-family:var(--font-mono); font-size:1.1rem; font-weight:800; border:2px solid #000; padding:0.5rem 1rem; background:#fff;">
+              OFFC PROTOCOL v1.0 // BENCHMARK
+            </div>
+          </div>
+          <div>
+            <span class="mono-tag" style="background:#000; color:#fff;">Company News</span>
+            <h3>Offc: The Extra Brain For High-Stakes Enterprise Decisions</h3>
+            <p style="margin-top: 1rem; font-size: 1.05rem; line-height: 1.5;">
+              Why Fortune 500 risk protocols belong in the hands of agile SMEs, and how reverse-engineering failure
+              protects real capital.
+            </p>
+          </div>
+          <div style="margin-top: 2rem;">
+            <a class="nav-btn primary" onclick="openModal('access')">Read Full Article →</a>
+          </div>
+        </div>
+
+        <!-- Side Stories -->
+        <div class="blog-side-list">
+          <div class="blog-side-item">
+            <span class="mono-tag" style="background:#000; color:#fff; width:max-content;">Case Study</span>
+            <h4>How An Industrial SME De-Risked A 300,000 AED Capex Expansion In 48 Hours</h4>
+            <p>By simulating supply chain delays before signing supplier POs, the team discovered a 6-month cash trap
+              and restructured payment terms.</p>
+          </div>
+
+          <div class="blog-side-item">
+            <span class="mono-tag" style="background:#000; color:#fff; width:max-content;">Research Note</span>
+            <h4>Beyond Chatbots: Why Pre-Mortems Beat LLM Chat Every Single Time</h4>
+            <p>Generative text optimizes for conversational fluency. Offc optimizes for cold, mathematical failure
+              prevention.</p>
+          </div>
+
+          <div class="blog-side-item">
+            <span class="mono-tag" style="background:#000; color:#fff; width:max-content;">Architecture</span>
+            <h4>The Antidote Protocol: Multi-Agent Consensus In Python & Supabase</h4>
+            <p>A deep dive into our deterministic schema enforcement and tenant-isolated accounting context builders.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ SECTION ("WE GIVE A FAQ") -->
+  <section class="faq-section corner-frame" id="faq">
+    <div class="corner-frame-bottom-left" style="border-color:#555;"></div>
+    <div class="corner-frame-bottom-right" style="border-color:#555;"></div>
+
+    <div class="faq-container">
+      <h2 class="faq-title">We Give A FAQ</h2>
+
+      <div class="faq-accordion">
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>What is an AI Decision Intelligence OS?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            An AI Decision Intelligence OS is purpose-built infrastructure for strategic and capital decision-making.
+            Unlike general chatbots that output open-ended conversational text, Offc operates machine-natively: it
+            ingests verified accounting and operational data, evaluates mathematical risk distributions, and produces
+            deterministic, binding action plans.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>How does the Pre-Mortem Engine work?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Instead of asking "Is this a good idea?", Offc uses the cognitive psychological technique of pre-mortems. It
+            simulates that your initiative has failed disastrously 6 to 12 months into the future. It then works
+            backward to expose the hidden vulnerabilities—demand drops, cash crunches, supplier lead-time blowouts—and
+            pairs each failure mode with a preventive antidote.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>How does Offc connect to company data without hallucinating?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Offc connects securely to your ERP, CRM, and accounting systems via encrypted read-only API connectors. Data
+            is parsed into structured telemetry matrices. The models are not allowed to guess or hallucinate numbers;
+            every assumption must be cross-checked against your real bank buffers, run rates, and supplier contracts.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>What are the AI Board of Directors agents?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            The AI Board is an ensemble of specialized domain models—including a CEO Orchestrator, CFO, Chief Risk
+            Officer, Sales Strategist, and Operations Director. When you submit a major decision, the agents debate
+            adversarial trade-offs from their respective perspectives until balanced executive consensus is reached.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Can Offc integrate with our existing stack?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Yes. Offc provides turn-key connectors for QuickBooks, Xero, NetSuite, Salesforce, Hubspot, and PostgreSQL
+            databases. It also exposes standard webhooks and a REST API so you can trigger pre-mortem reviews directly
+            from your internal tools.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MEGA FOOTER (TYPESAFE STYLE) -->
+  <footer class="site-footer">
+    <div class="footer-container">
+
+      <div class="footer-big-brand">
+        <div class="footer-logo-row">
+          <img src="logo_trans.png" alt="the OFFC ai logo" class="footer-logo-img">
+        </div>
+        <div class="footer-tagline">
+          Come Build With Us
+        </div>
+        <div class="footer-cta-row">
+          <span>▶▶▶</span>
+          <a class="footer-cta-link" onclick="openModal('access')">Request Early Access</a>
+        </div>
+      </div>
+
+      <div class="footer-links-grid">
+        <div class="footer-col">
+          <h5>Platform</h5>
+          <ul>
+            <li><a href="#simulator">Scenario Simulator</a></li>
+            <li><a href="#premortem">Pre-Mortem Engine</a></li>
+            <li><a href="#board">AI Board of Directors</a></li>
+            <li><a href="#architecture">Architecture Blueprint</a></li>
+            <li><a onclick="openModal('access')">Decision Journal</a></li>
+          </ul>
+        </div>
+
+
+
+        <div class="footer-col">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="#news">Research Notes</a></li>
+            <li><a href="#news">Case Studies</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Connect</h5>
+          <ul>
+            <li><a href="#">Discord Community</a></li>
+            <li><a href="#">X / Twitter</a></li>
+            <li><a href="#">GitHub Repository</a></li>
+            <li><a href="#">Contact Enterprise</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-status-bar">
+        <div class="status-indicator">
+          <span class="status-dot"></span>
+          <span>OFFC OS KERNEL: ALL SYSTEMS OPERATIONAL</span>
+        </div>
+        <div>LATENCY: 14ms • DUBAI / SF</div>
+        <div>© 2026 Offc Inc. The AI Decision Intelligence OS.</div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- MODAL: EARLY ACCESS & CONSOLE LAUNCH -->
+  <div class="modal-overlay" id="accessModal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div style="display:flex; align-items:center; gap:0.6rem;">
+          <img src="logo_trans.png" alt="the OFFC ai logo" style="height:20px; width:auto; object-fit:contain;">
+          <span>OFFC.OS // EARLY ACCESS REQUEST</span>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('accessModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-family: var(--font-mono); font-size: 0.85rem; margin-bottom: 1.25rem; color: #444;">
+          Deploy the Extra Brain to your enterprise. Join our closed pilot for mid-market and SME executive teams.
+        </p>
+
+        <form id="accessForm" onsubmit="handleFormSubmit(event)">
+          <div class="modal-form-group">
+            <label class="modal-label">YOUR FULL NAME</label>
+            <input type="text" class="modal-input" placeholder="e.g. Alex Vance" required>
+          </div>
+          <div class="modal-form-group">
+            <label class="modal-label">WORK EMAIL</label>
+            <input type="email" class="modal-input" placeholder="alex@company.com" required>
+          </div>
+          <div class="modal-form-group">
+            <label class="modal-label">COMPANY / PLATFORM NAME</label>
+            <input type="text" class="modal-input" placeholder="Acme Manufacturing Ltd" required>
+          </div>
+          <div class="modal-form-group">
+            <label class="modal-label">PRIMARY HIGH-STAKES DECISION TYPE</label>
+            <select class="modal-select">
+              <option>Capex / Equipment Allocation (e.g. AED 300k+)</option>
+              <option>New Market / Territory Expansion</option>
+              <option>Executive Hiring & Team Scaling</option>
+              <option>ERP / Core System Migration</option>
+              <option>M&A / Strategic Joint Venture</option>
+            </select>
+          </div>
+          <button type="submit" class="modal-submit-btn">Request Decision Console Credentials →</button>
+        </form>
+
+        <div id="formSuccessMessage" style="display: none; text-align: center; padding: 1.5rem 0;">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;"></div>
+          <h4 style="font-family: var(--font-mono); margin-bottom: 0.5rem;">Credentials Issued!</h4>
+          <p style="font-size: 0.85rem; color: #555;">
+            Our team has received your pilot application. Check your email for your sandbox credentials.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
